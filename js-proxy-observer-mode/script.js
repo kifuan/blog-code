@@ -12,30 +12,33 @@ function observer(obj) {
     }, obj)
 
     const set = (target, key, value) => {
-        const oldValue = Reflect.get(target, key, value)
+        const result = Reflect.set(target, key, value)
 
         // Call the observer if it exsits for current property,
-        // and pass thisArg as undefined
-        observers[key]?.call(undefined, oldValue, value)
+        // and pass thisArg as the target of proxy
+        observers[key]?.call(target)
         
-        return Reflect.set(target, key, value)
+        return result
     }
 
     return new Proxy(target, { set })
 }
 
 
+// Whatever x is, y is always x + 1
 const ob = observer({
-    name: 'A',
-    age: 18
-}).observe('name', (oldValue, newValue) => {
-    console.log(`name: old ${oldValue}, new ${newValue}`)
-}).observe('age', (oldValue, newValue) => {
-    console.log(`age: old ${oldValue}, new ${newValue}`)
+    x: 0,
+    y: 1,
+}).observe('x', function() {
+    this.y = this.x + 1
+}).observe('y', function() {
+    this.x = this.y - 1
 })
 
-ob.name = 'B'
-// name: old A, new B
+ob.x = 10
+console.log(ob.y)
+// 11
 
-ob.age = 20
-// age: old 18, new 20
+ob.y = 21
+console.log(ob.x)
+// 20
