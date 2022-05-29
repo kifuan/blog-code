@@ -1,0 +1,54 @@
+.speak-card {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.speak-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.speak-card-title {
+    font-weight: bold;
+}
+
+.speak-card-date {
+    color: #57606a;
+    font-size: small;
+}
+
+.speak-card-id {
+    color: #57606a;
+    margin-left: 5px;
+}
+
+.speak-card-status-info,
+.speak-card-status-error,
+.speak-card-status-success,
+.speak-card-status-warning {
+    margin-top: 10px;
+    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.speak-card-status-info {
+    border: 3px solid #2080f0;
+}
+
+.speak-card-status-error {
+    border: 3px solid #d03050;
+}
+
+.speak-card-status-success {
+    border: 3px solid #18a058;
+}
+
+.speak-card-status-warning {
+    border: 3px solid #f0a020;
+}
