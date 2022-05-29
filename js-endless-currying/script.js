@@ -1,9 +1,10 @@
-const curry = (f, ...outer) => {
-    return (...inner) => {
-        if (outer.length + inner.length >= f.length) {
-            return f(...outer, ...inner)
+function curry(f, ...savedArgs) {
+    return function() {
+        const totalArgs = [...savedArgs, ...arguments]
+        if (totalArgs.length >= f.length) {
+            return f(...totalArgs)
         }
-        return curry(f, ...outer, ...inner)
+        return curry(f, ...totalArgs)
     }
 }
 
