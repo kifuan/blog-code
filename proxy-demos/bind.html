@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bind</title>
+</head>
+<body>
+    <h1>双向绑定</h1>
+    <input type="text" data-value="account" data-update="account" placeholder="账号"><br><br>
+    <input type="text" data-value="password" data-update="password" placeholder="密码">
+    <p>账号: <span data-value="account"></span></p>
+    <p>密码: <span data-value="password"></span></p>
+
+    <button onclick="data.account = ''">清空账号</button>
+    <button onclick="data.password = ''">清空密码</button>
+
+    <script src="./bind.js"></script>
+</body>
+</html>
