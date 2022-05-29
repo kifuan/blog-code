@@ -61,6 +61,7 @@ function toFlat(tree) {
 
     // This function appends the item and its children to result array.
     const append = ({ id, content, children }, parent) => {
+        // Here we append a new object, then the operations on return value won't affect raw data.
         result.push({ id, content, parent })
         // Append each child to array, calling the function recursively.
         children.forEach(child => {
