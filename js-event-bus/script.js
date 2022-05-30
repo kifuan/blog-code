@@ -2,8 +2,8 @@ class EventBus {
     callbacks = {}
 
     on(event, callback) {
-        const callbacks = this.callbacks[event] ||= []
-        callbacks.push(callback)
+        const callbacks = this.callbacks[event] ||= new Set()
+        callbacks.add(callback)
         return this
     }
 
@@ -25,8 +25,7 @@ class EventBus {
 
     remove(event, callback = undefined) {
         if (callback) {
-            const index = this.callbacks[event].indexOf(callback)
-            index !== -1 && delete this.callbacks[event][index]
+            this.callbacks[event]?.delete(callback)
         } else {
             delete this.callbacks[event]
         }
