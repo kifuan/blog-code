@@ -1,4 +1,4 @@
-function observer(obj) {
+function observable(obj) {
     const observers = {}
 
     // Not modifying the argument directly,
@@ -12,33 +12,30 @@ function observer(obj) {
     }, obj)
 
     const set = (target, key, value) => {
-        const result = Reflect.set(target, key, value)
+        const oldVal = Reflect.get(target, key)
 
         // Call the observer if it exsits for current property,
-        // and pass thisArg as the target of proxy
-        observers[key]?.call(target)
+        // and pass old value and new value as arguments
+        observers[key]?.call(undefined, oldVal, value)
         
-        return result
+        return Reflect.set(target, key, value)
     }
 
     return new Proxy(target, { set })
 }
 
 
-// Whatever x is, y is always x + 1
-const ob = observer({
+const ob = observable({
     x: 0,
     y: 1,
-}).observe('x', function() {
-    this.y = this.x + 1
-}).observe('y', function() {
-    this.x = this.y - 1
+}).observe('x', (oldVal, newVal) => {
+    console.log(`x: ${oldVal} -> ${newVal}`)
+}).observe('y', (oldVal, newVal) => {
+    console.log(`y: ${oldVal} -> ${newVal}`)
 })
 
 ob.x = 10
-console.log(ob.y)
-// 11
+// x: 0 -> 10
 
-ob.y = 21
-console.log(ob.x)
-// 20
+ob.y = 20
+// y: 1 -> 20
