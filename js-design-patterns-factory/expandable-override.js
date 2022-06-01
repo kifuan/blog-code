@@ -19,29 +19,32 @@ class QQSharer extends Sharer {
     }
 }
 
-class SharerFactory {
-    create(options) {}
-}
-
-class QQSharerFactory extends SharerFactory {
-    create(options) {
-        return new QQSharer(options)
+class Factory {
+    create(type, options) {
+        if (type === 'qq') {
+            return new QQSharer(options)
+        }
     }
 }
 
-class WeChatSharerFactory extends SharerFactory {
-    create(options) {
-        return new WeChatSharer(options)
+class ExpandedFactory extends Factory {
+    create(type, options) {
+        if (type === 'wechat') {
+            return new WeChatSharer(options)
+        }
+        return super.create(type, options)
     }
 }
 
-new QQSharerFactory().create({
+const factory = new ExpandedFactory()
+
+factory.create('qq', {
     msg: 'msg1',
     link: 'https://example.com'
 }).share()
 // Sharing msg1 from https://example.com via QQ
 
-new WeChatSharerFactory().create({
+factory.create('wechat', {
     msg: 'msg2',
     link: 'https://baidu.com'
 }).share()
