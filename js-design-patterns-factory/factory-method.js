@@ -35,14 +35,15 @@ class WeChatSharerFactory extends SharerFactory {
     }
 }
 
-new QQSharerFactory().create({
-    msg: 'msg1',
-    link: 'https://example.com'
-}).share()
+function share(factory) {
+    factory.create({
+        msg: 'msg1',
+        link: 'https://example.com'
+    }).share()
+}
+
+share(new QQSharerFactory())
 // Sharing msg1 from https://example.com via QQ
 
-new WeChatSharerFactory().create({
-    msg: 'msg2',
-    link: 'https://baidu.com'
-}).share()
+share(new WeChatSharerFactory())
 // Sharing msg2 from https://baidu.com via WeChat
