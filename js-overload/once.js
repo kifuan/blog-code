@@ -3,9 +3,13 @@ const users = {
 }
 
 function overload(...funcs) {
+    const map = funcs.reduce((pre, cur) => {
+        pre.set(cur.length, cur)
+        return pre
+    }, new Map())
+
     return function() {
-        return funcs.find(f => f.length === arguments.length)
-            ?.apply(this, arguments)
+        return map.get(arguments.length)?.apply(this, arguments)
     }
 }
 
