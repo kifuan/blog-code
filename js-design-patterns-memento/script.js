@@ -4,7 +4,7 @@ class Staff {
         this.salary = salary
     }
 
-    riseSalary(salary) {
+    raiseSalary(salary) {
         this.salary += salary
     }
 
@@ -35,7 +35,7 @@ const staff = new Staff('Bob', 12500)
 
 careTaker.set(1, staff.store())
 
-staff.riseSalary(5000)
+staff.raiseSalary(5000)
 console.log(staff.salary)
 // 17500
 
