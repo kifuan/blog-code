@@ -1,5 +1,5 @@
 function node(val, left, right) {
-    return { val, left, right }
+    return { val, left, right, height: 0 }
 }
 
 function height(root) {
@@ -95,7 +95,7 @@ function remove(root, val) {
     } else {
         root = root.left || root.right
     }
-    return root
+    return balance(root)
 }
 
 function contains(root, val) {
