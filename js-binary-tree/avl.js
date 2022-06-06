@@ -39,14 +39,14 @@ function rotateWithRightChild(k1) {
     return k2
 }
 
-function doubleWithLeftChild(k1) {
-    k1.left = rotateWithRightChild(k1.left)
-    return rotateWithLeftChild(k1)
+function doubleWithLeftChild(k3) {
+    k3.left = rotateWithRightChild(k3.left)
+    return rotateWithLeftChild(k3)
 }
 
-function doubleWithRightChild(k1) {
-    k1.right = rotateWithLeftChild(k1.right)
-    return rotateWithRightChild(k1)
+function doubleWithRightChild(k3) {
+    k3.right = rotateWithLeftChild(k3.right)
+    return rotateWithRightChild(k3)
 }
 
 function balance(node) {
