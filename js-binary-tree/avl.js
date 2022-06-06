@@ -1,5 +1,5 @@
 function node(val, left, right) {
-    return { val, left, right, height: 0 }
+    return { val, left, right }
 }
 
 function height(root) {
