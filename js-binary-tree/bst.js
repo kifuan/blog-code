@@ -25,11 +25,11 @@ function remove(root, val) {
         root.right = remove(root.right, val)
     } else if (root.left && root.right) {
         // Finds minimum value
-        let node = root.right
-        while (node.left) {
-            node = node.left
+        let min = root.right
+        while (min.left) {
+            min = min.left
         }
-        root.val = node.val
+        root.val = min.val
         root.right = remove(root.right, root.val)
     } else {
         root = root.left || root.right
