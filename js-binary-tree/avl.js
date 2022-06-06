@@ -94,7 +94,7 @@ function remove(node, val) {
     } else if (val > node.val) {
         node.right = remove(node.right, val)
     } else if (node.left && node.right) {
-        // Finds minimum value
+        // Find minimum value
         let min = node.right
         while (min.left) {
             min = min.left
