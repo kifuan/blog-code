@@ -53,22 +53,22 @@ function balance(node) {
     if (!node) {
         return node
     }
-
     if (factor(node) > 1) {
-        // left
+        // Left
         if (factor(node.left) < 0) {
             node = doubleWithLeftChild(node)
         } else {
             node = rotateWithLeftChild(node)
         }
     } else if (factor(node) < -1) {
-        // right
+        // Right
         if (factor(node.right) > 0) {
             node = doubleWithRightChild(node)
         } else {
             node = rotateWithRightChild(node)
         }
     }
+    // Anyway, reset the height.
     node.height = calcHeight(node)
     return node
 }
