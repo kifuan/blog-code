@@ -1,4 +1,4 @@
-function node(val, left, right) {
+function createNode(val, left, right) {
     return { val, left, right }
 }
 
@@ -9,104 +9,103 @@ function height(root) {
     return Math.max(height(root.left), height(root.right)) + 1
 }
 
-function factor(root) {
-    if (!root) {
+function factor(node) {
+    if (!node) {
         return 0
     }
-    return height(root.left) - height(root.right)
+    return height(node.left) - height(node.right)
 }
 
-function rotateWithLeftChild(oldRoot) {
-    const newRoot = oldRoot.left
-    oldRoot.left = newRoot.right
-    newRoot.right = oldRoot
-    return newRoot
+function rotateWithLeftChild(k1) {
+    const k2 = k1.left
+    k1.left = k2.right
+    k2.right = k1
+    return k2
 }
 
-function rotateWithRightChild(oldRoot) {
-    const newRoot = oldRoot.right
-    oldRoot.right = newRoot.left
-    newRoot.left = oldRoot
-    return newRoot
+function rotateWithRightChild(k1) {
+    const k2 = k1.right
+    k1.right = k2.left
+    k2.left = k1
+    return k2
 }
 
-function doubleWithLeftChild(oldRoot) {
-    oldRoot.left = rotateWithRightChild(oldRoot.left)
-    return rotateWithLeftChild(oldRoot)
+function doubleWithLeftChild(k1) {
+    k1.left = rotateWithRightChild(k1.left)
+    return rotateWithLeftChild(k1)
 }
 
-function doubleWithRightChild(oldRoot) {
-    oldRoot.right = rotateWithLeftChild(oldRoot.right)
-    return rotateWithRightChild(oldRoot)
+function doubleWithRightChild(k1) {
+    k1.right = rotateWithLeftChild(k1.right)
+    return rotateWithRightChild(k1)
 }
 
-function balance(root) {
-    if (!root) {
-        return root
+function balance(node) {
+    if (!node) {
+        return node
     }
 
-    if (factor(root) > 1) {
+    if (factor(node) > 1) {
         // left
-        if (factor(root.left) < 0) {
-            return doubleWithLeftChild(root)
+        if (factor(node.left) < 0) {
+            node = doubleWithLeftChild(node)
         } else {
-            return rotateWithLeftChild(root)
+            node = rotateWithLeftChild(node)
         }
-    } else if (factor(root) < -1) {
+    } else if (factor(node) < -1) {
         // right
-        if (factor(root.right) > 0) {
-            return doubleWithRightChild(root)
+        if (factor(node.right) > 0) {
+            node = doubleWithRightChild(node)
         } else {
-            return rotateWithRightChild(root)
+            node = rotateWithRightChild(node)
         }
     }
-
-    return root
+    return node
 }
 
-function insert(root, val) {
-    if (!root) {
-        return node(val)
+function insert(node, val) {
+    if (!node) {
+        return createNode(val)
     }
-    if (val < root.val) {
-        root.left = insert(root.left, val)
-    } else if (val > root.val) {
-        root.right = insert(root.right, val)
+    if (val < node.val) {
+        node.left = insert(node.left, val)
+    } else if (val > node.val) {
+        node.right = insert(node.right, val)
     }
-    return balance(root)
+    return balance(node)
 }
 
-function remove(root, val) {
-    if (!root) {
-        return root
+function remove(node, val) {
+    if (!node) {
+        return node
     }
-    if (val < root.val) {
-        root.left = remove(root.left, val)
-    } else if (val > root.val) {
-        root.right = remove(root.right, val)
-    } else if (root.left && root.right) {
+    if (val < node.val) {
+        node.left = remove(node.left, val)
+    } else if (val > node.val) {
+        node.right = remove(node.right, val)
+    } else if (node.left && node.right) {
         // Finds minimum value
-        let min = root.right
+        let min = node.right
         while (min.left) {
             min = min.left
         }
-        root.val = min.val
-        root.right = remove(root.right, root.val)
+        node.val = min.val
+        node.right = remove(node.right, node.val)
     } else {
-        root = root.left || root.right
+        node = node.left || node.right
     }
-    return balance(root)
+    return balance(node)
 }
 
-function contains(root, val) {
-    if (!root) {
+function contains(node, val) {
+    if (!node) {
         return false
     }
 
-    if (val < root.val) {
-        return contains(root.left, val)
-    } else if (val > root.val) {
-        return contains(root.right, val)
+    if (val < node.val) {
+        return contains(node.left, val)
+    } else if (val > node.val) {
+        return contains(node.right, val)
     }
     
     return true
