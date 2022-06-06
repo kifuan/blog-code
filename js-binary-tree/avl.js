@@ -97,3 +97,17 @@ function remove(root, val) {
     }
     return balance(root)
 }
+
+function contains(root, val) {
+    if (!root) {
+        return false
+    }
+
+    if (val < root.val) {
+        return contains(root.left, val)
+    } else if (val > root.val) {
+        return contains(root.right, val)
+    }
+    
+    return true
+}
