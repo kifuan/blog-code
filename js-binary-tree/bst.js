@@ -1,5 +1,5 @@
-function createNode(val, left, right) {
-    return { val, left, right }
+function createNode(val) {
+    return { val, left: undefined, right: undefined }
 }
 
 function insert(node, val) {
