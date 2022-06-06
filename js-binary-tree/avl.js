@@ -1,12 +1,9 @@
 function createNode(val, left, right) {
-    return { val, left, right }
+    return { val, left, right, height: 0 }
 }
 
-function height(root) {
-    if (!root) {
-        return 0
-    }
-    return Math.max(height(root.left), height(root.right)) + 1
+function height(node) {
+    return node ? node.height : -1
 }
 
 function factor(node) {
@@ -16,10 +13,18 @@ function factor(node) {
     return height(node.left) - height(node.right)
 }
 
+function calcHeight(node) {
+    return Math.max(height(node.left), height(node.right)) + 1
+}
+
 function rotateWithLeftChild(k1) {
     const k2 = k1.left
     k1.left = k2.right
     k2.right = k1
+
+    k1.height = calcHeight(k1)
+    k2.height = calcHeight(k2)
+
     return k2
 }
 
@@ -27,6 +32,10 @@ function rotateWithRightChild(k1) {
     const k2 = k1.right
     k1.right = k2.left
     k2.left = k1
+
+    k1.height = calcHeight(k1)
+    k2.height = calcHeight(k2)
+
     return k2
 }
 
@@ -60,6 +69,7 @@ function balance(node) {
             node = rotateWithRightChild(node)
         }
     }
+    node.height = calcHeight(node)
     return node
 }
 
