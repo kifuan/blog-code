@@ -1,19 +1,21 @@
 function once(f) {
     let called = false
-    return new Proxy(f, {
-        apply(target, thisArg, argArray) {
-            if (called) {
-                return
-            }
-            called = true
-            return Reflect.apply(target, thisArg, argArray)
+
+    function apply(target, thisArg, args) {
+        if (called) {
+            return
         }
-    })
+        called = true
+        return Reflect.apply(target, thisArg, args)
+    }
+
+    return new Proxy(f, { apply })
 }
 
-const foo = once(function() {
+const foo = once(() => {
     console.log('Hello world')
 })
 
+foo()
 foo()
 foo()
