@@ -23,7 +23,7 @@ function once(f) {
 }
 
 const foo = once(() => {
-    console.log('Hello world')
+    console.log('Hello from foo')
 })
 
 foo()
