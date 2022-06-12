@@ -1,3 +1,13 @@
+const obj = {
+    hello() {
+        console.log('Hello from obj')
+        this.hello = () => {}
+    }
+}
+
+obj.hello()
+obj.hello()
+
 function once(f) {
     let called = false
 
