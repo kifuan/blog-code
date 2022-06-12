@@ -1,24 +1,14 @@
 class Heap {
-    // We don't use vals[0]
+    // We don't use vals[0].
     vals = [ NaN ]
 
-    constructor(type) {
-        if (type === 'min') {
-            this.compare = (i, j) => this.vals[i] > this.vals[j]
-        } else if (type === 'max') {
-            this.compare = (i, j) => this.vals[j] > this.vals[i]
-        } else {
-            throw new TypeError(`Unknown type: ${type}.`)
-        }
-    }
-
-    swap(i, j) {
+    _swap(i, j) {
         const temp = this.vals[i]
         this.vals[i] = this.vals[j]
         this.vals[j] = temp
     }
 
-    percolateDown() {
+    _percolateDown() {
         let cur = 1
         while (true) {
             const left = cur * 2
@@ -30,27 +20,27 @@ class Heap {
             }
 
             // Finds the subscript of minimal value between left and right.
-            if (right < this.vals.length && this.compare(left, right)) {
+            if (right < this.vals.length && this.vals[left] > this.vals[right]) {
                 child = right
             }
 
-            if (this.compare(child, cur)) {
+            if (this.vals[child] > this.vals[cur]) {
                 return
             }
 
-            this.swap(child, cur)
+            this._swap(child, cur)
             cur = child
         }
     }
 
-    percolateUp() {
+    _percolateUp() {
         let cur = this.vals.length - 1
         while (true) {
             const parent = Math.floor(cur / 2)
-            if (parent < 1 || this.compare(cur, parent)) {
+            if (parent < 1 || this.vals[cur] > this.vals[parent]) {
                 return
             }
-            this.swap(parent, cur)
+            this._swap(parent, cur)
             cur = parent
         }
     }
@@ -64,20 +54,20 @@ class Heap {
     }
 
     pop() {
-        this.swap(1, this.vals.length - 1)
+        this._swap(1, this.vals.length - 1)
         const val = this.vals.pop()
-        this.percolateDown()
+        this._percolateDown()
         return val
     }
 
     push(val) {
         this.vals.push(val)
-        this.percolateUp()
+        this._percolateUp()
     }
 }
 
 function getTopK(nums, k) {
-    const heap = new Heap('min')
+    const heap = new Heap()
     nums.forEach(n => {
         if (heap.length < k) {
             heap.push(n)
