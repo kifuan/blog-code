@@ -1,6 +1,6 @@
 class MinHeap {
     // We don't use vals[0]
-    vals = [ 0 ]
+    vals = [ NaN ]
 
     swap(i, j) {
         const temp = this.vals[i]
@@ -50,7 +50,7 @@ class MinHeap {
         return this.vals.length - 1
     }
 
-    get top() {
+    get min() {
         return this.vals[1] || NaN
     }
 
@@ -72,7 +72,7 @@ function getTopK(nums, k) {
     nums.forEach(n => {
         if (heap.length < k) {
             heap.push(n)
-        } else if (n > heap.top) {
+        } else if (n > heap.min) {
             heap.pop()
             heap.push(n)
         }
