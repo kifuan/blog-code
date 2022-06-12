@@ -60,7 +60,7 @@ class Heap {
     }
 
     get top() {
-        return this.vals[1] || NaN
+        return this.vals[1] ?? NaN
     }
 
     pop() {
