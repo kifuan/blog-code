@@ -102,7 +102,8 @@ class HashMap {
         if (index === -1) {
             return undefined
         }
-        return this.elements[index].val
+        const el = this.elements[index]
+        return el.empty ? undefined : el.val
     }
 
     get length() {
@@ -139,3 +140,5 @@ const removeKeys = ['foo', 'bar', 'baz']
 removeKeys.forEach(key => console.assert(map.delete(key)))
 
 console.assert(map.length === entries.length - 3)
+
+console.assert(map.get('foo') === undefined)
