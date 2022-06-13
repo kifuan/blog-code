@@ -43,7 +43,7 @@ class HashMap {
 
     _createElements(length) {
         length = nextPrime(length)
-        this.elements = Array(length).fill({ empty: true, key: undefined, val: undefined })
+        this.elements = Array.from({ length }, () => ({ empty: true }))
     }
 
     _hash(key) {
