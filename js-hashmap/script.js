@@ -90,7 +90,7 @@ class HashMap {
         this.elements[index] = { empty: false, key, val }
     }
 
-    remove(key) {
+    delete(key) {
         const index = this._findIndex(key)
         if (index === -1) {
             return false
@@ -138,6 +138,6 @@ entries.forEach(([key, val]) => {
 })
 
 const removeKeys = ['foo', 'bar', 'baz']
-removeKeys.forEach(key => console.assert(map.remove(key)))
+removeKeys.forEach(key => console.assert(map.delete(key)))
 
 console.assert(map.length === entries.length - 3)
