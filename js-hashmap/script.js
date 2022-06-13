@@ -116,7 +116,11 @@ class HashMap {
     }
 
     get(key) {
-        return this.elements[this._findIndexToModify(key)].val
+        const index = this._findIndexToModify(key)
+        if (index === -1) {
+            return undefined
+        }
+        return this.elements[index].val
     }
 
     get length() {
@@ -126,41 +130,38 @@ class HashMap {
     }
 }
 
+
 function randStr() {
     return Math.random().toString(36).slice(-8)
 }
 
-function diffRandStr(s) {
-    let result
-    do {
-        result = randStr()
-    } while (result === s)
-    return result
+function generateKeys(n) {
+    const result = new Set()
+
+    while (result.size < n) {
+        result.add(randStr())
+    }
+
+    return Array.from(result)
 }
 
-const entries = []
-const removeEntries = []
+const totalKeys = generateKeys(200)
+const removeKeys = totalKeys.slice(0, 100)
+const remainKeys = totalKeys.slice(100, 201)
 
-for (let i = 0; i < 100; i++) {
-    const key = randStr()
-    const removeKey = diffRandStr(key)
-    entries.push([key, randStr()])
-    removeEntries.push([removeKey, randStr()])
-}
+const jsMap = new Map()
 
-const map = entries.concat(removeEntries).reduce((map, [key, val]) => {
+const map = totalKeys.reduce((map, key) => {
+    const val = randStr()
     map.set(key, val)
+    jsMap.set(key, val)
     return map
 }, new HashMap())
 
-removeEntries
-    .map(e => e[0])
-    .forEach(key => {
-        console.assert(map.delete(key), 'Failed to delete', key)
-    })
+removeKeys.forEach(key => {
+    console.assert(map.delete(key), 'Failed to delete', key)
+})
 
-console.assert(map.length === entries.length, 'Incompatible length', map.length, entries.length)
-
-entries.forEach(([key, val]) => {
-    console.assert(map.get(key) === val, key, val)
+remainKeys.forEach(key => {
+    console.assert(map.get(key) === jsMap.get(key), 'Wrong value for', key)
 })
