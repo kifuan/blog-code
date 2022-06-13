@@ -77,10 +77,6 @@ class HashMap {
     }
 
     set(key, val) {
-        if (val === undefined) {
-            throw new TypeError('Value canot be undefined.')
-        }
-
         const index = this._findIndexToInsert(key)
 
         if (index === -1) {
@@ -96,7 +92,7 @@ class HashMap {
         let index = this._hash(key)
         while (index < this.elements.length) {
             const el = this.elements[index]
-            if (el.val === undefined) {
+            if (el.key === undefined) {
                 return -1
             }
 
