@@ -75,15 +75,15 @@ class HashMap {
     _rehash() {
         const old = this.elements.filter(el => !el.empty)
         this._createElements(this.elements.length * 2)
-        old.forEach(el => this.insert(el.key, el.val))
+        old.forEach(el => this.set(el.key, el.val))
     }
 
-    insert(key, val) {
+    set(key, val) {
         const index = this._findIndex(key)
 
         if (index === -1) {
             this._rehash()
-            this.insert(key, val)
+            this.set(key, val)
             return
         }
 
@@ -129,7 +129,7 @@ const entries = [
 ]
 
 const map = entries.reduce((map, [key, val]) => {
-    map.insert(key, val)
+    map.set(key, val)
     return map
 }, new HashMap())
 
