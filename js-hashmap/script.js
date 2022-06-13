@@ -58,7 +58,7 @@ class HashMap {
         return val
     }
 
-    _findIndex(key) {
+    _findNextIndex(key) {
         let index = this._hash(key)
         while (index < this.elements.length) {
             const el = this.elements[index]
@@ -77,7 +77,7 @@ class HashMap {
     }
 
     set(key, val) {
-        const index = this._findIndex(key)
+        const index = this._findNextIndex(key)
 
         if (index === -1) {
             this._rehash()
@@ -89,7 +89,7 @@ class HashMap {
     }
 
     delete(key) {
-        const index = this._findIndex(key)
+        const index = this._findNextIndex(key)
         if (index === -1) {
             return false
         }
@@ -98,7 +98,7 @@ class HashMap {
     }
 
     get(key) {
-        const index = this._findIndex(key)
+        const index = this._findNextIndex(key)
         if (index === -1) {
             return undefined
         }
