@@ -1,11 +1,15 @@
 function isPrime(n) {
-    if (n <= 2) {
+    if (n <= 1) {
+        return false
+    }
+
+    if (n > 2 && n % 2 === 0) {
         return false
     }
 
     const max = Math.floor(Math.sqrt(n))
-    for (let i = 2; i <= max; i++) {
-        if (n % i == 0) {
+    for (let i = 3; i <= max; i += 2) {
+        if (n % i === 0) {
             return false
         }
     }
