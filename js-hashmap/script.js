@@ -60,16 +60,14 @@ class HashMap {
 
     _findIndex(key) {
         let index = this._hash(key)
-        while (index < this.elements.length && !this.elements[index].empty) {
-            if (this.elements[index].key === key) {
-                break
+        while (index < this.elements.length) {
+            const el = this.elements[index]
+            if (el.empty || el.key === key) {
+                return index
             }
             index++
         }
-        if (index === this.elements.length) {
-            return -1
-        }
-        return index
+        return -1
     }
 
     _rehash() {
