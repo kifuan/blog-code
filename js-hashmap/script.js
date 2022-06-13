@@ -58,7 +58,7 @@ class HashMap {
         return val
     }
 
-    _findNextIndex(key) {
+    _findIndexToInsert(key) {
         let index = this._hash(key)
         while (index < this.elements.length) {
             const el = this.elements[index]
@@ -77,7 +77,11 @@ class HashMap {
     }
 
     set(key, val) {
-        const index = this._findNextIndex(key)
+        if (val === undefined) {
+            throw new TypeError('Value canot be undefined.')
+        }
+
+        const index = this._findIndexToInsert(key)
 
         if (index === -1) {
             this._rehash()
@@ -88,8 +92,26 @@ class HashMap {
         this.elements[index] = { empty: false, key, val }
     }
 
+    _findIndexToModify(key) {
+        let index = this._hash(key)
+        while (index < this.elements.length) {
+            const el = this.elements[index]
+            if (el.val === undefined) {
+                return -1
+            }
+
+            if (el.key === key && !el.empty) {
+                return index
+            }
+
+            index++
+        }
+
+        return -1
+    }
+
     delete(key) {
-        const index = this._findNextIndex(key)
+        const index = this._findIndexToModify(key)
         if (index === -1) {
             return false
         }
@@ -98,12 +120,7 @@ class HashMap {
     }
 
     get(key) {
-        const index = this._findNextIndex(key)
-        if (index === -1) {
-            return undefined
-        }
-        const el = this.elements[index]
-        return el.empty ? undefined : el.val
+        return this.elements[this._findIndexToModify(key)].val
     }
 
     get length() {
@@ -113,32 +130,41 @@ class HashMap {
     }
 }
 
-const entries = [
-    [ 'red',     '#FF0000' ],
-    [ 'white',   '#FFFFFF' ],
-    [ 'black',   '#000000' ],
-    [ 'green',   '#008000' ],
-    [ 'yellow',  '#FFFF00' ],
-    [ 'blue',    '#0000FF' ],
-    [ 'lime',    '#00FF00' ],
-    [ 'magenta', '#FF00FF' ],
-    [ 'foo',   123 ],
-    [ 'bar',   234 ],
-    [ 'baz',   345 ],
-]
+function randStr() {
+    return Math.random().toString(36).slice(-8)
+}
 
-const map = entries.reduce((map, [key, val]) => {
+function diffRandStr(s) {
+    let result
+    do {
+        result = randStr()
+    } while (result === s)
+    return result
+}
+
+const entries = []
+const removeEntries = []
+
+for (let i = 0; i < 100; i++) {
+    const key = randStr()
+    const removeKey = diffRandStr(key)
+    entries.push([key, randStr()])
+    removeEntries.push([removeKey, randStr()])
+}
+
+const map = entries.concat(removeEntries).reduce((map, [key, val]) => {
     map.set(key, val)
     return map
 }, new HashMap())
 
+removeEntries
+    .map(e => e[0])
+    .forEach(key => {
+        console.assert(map.delete(key), 'Failed to delete', key)
+    })
+
+console.assert(map.length === entries.length, 'Incompatible length', map.length, entries.length)
+
 entries.forEach(([key, val]) => {
-    console.assert(map.get(key) === val)
+    console.assert(map.get(key) === val, key, val)
 })
-
-const removeKeys = ['foo', 'bar', 'baz']
-removeKeys.forEach(key => console.assert(map.delete(key)))
-
-console.assert(map.length === entries.length - 3)
-
-console.assert(map.get('foo') === undefined)
