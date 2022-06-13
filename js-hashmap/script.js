@@ -1,3 +1,24 @@
+function isPrime(n) {
+    if (n <= 2) {
+        return false
+    }
+
+    const max = Math.floor(Math.sqrt(n))
+    for (let i = 2; i <= max; i++) {
+        if (n % i == 0) {
+            return false
+        }
+    }
+    return true
+}
+
+function nextPrime(n) {
+    while (!isPrime(n)) {
+        n++
+    }
+    return n
+}
+
 class HashMap {
     elements = []
 
@@ -6,6 +27,7 @@ class HashMap {
     }
 
     _createElements(length) {
+        length = nextPrime(length)
         this.elements = Array(length).fill({ empty: true, key: undefined, val: undefined })
     }
 
