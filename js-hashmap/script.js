@@ -88,7 +88,7 @@ class HashMap {
         this.elements[index] = { empty: false, key, val }
     }
 
-    _findIndexToModify(key) {
+    _findIndexForKey(key) {
         let index = this._hash(key)
         while (index < this.elements.length) {
             const el = this.elements[index]
@@ -96,7 +96,11 @@ class HashMap {
                 return -1
             }
 
-            if (el.key === key && !el.empty) {
+            if (el.key === key) {
+                if (el.empty) {
+                    return -1
+                }
+
                 return index
             }
 
@@ -107,7 +111,7 @@ class HashMap {
     }
 
     delete(key) {
-        const index = this._findIndexToModify(key)
+        const index = this._findIndexForKey(key)
         if (index === -1) {
             return false
         }
@@ -116,7 +120,7 @@ class HashMap {
     }
 
     get(key) {
-        const index = this._findIndexToModify(key)
+        const index = this._findIndexForKey(key)
         if (index === -1) {
             return undefined
         }
