@@ -10,10 +10,12 @@ const interval = {
             if (!this._active.has(id)) {
                 return
             }
-            callback()
-            setTimeout(handler, delay)
+            setTimeout(() => {
+                callback()
+                handler()
+            }, delay)
         }
-        setTimeout(handler, delay)
+        handler()
         return id
     },
 
